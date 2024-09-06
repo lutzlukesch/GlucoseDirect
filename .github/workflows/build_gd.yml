@@ -1,11 +1,3 @@
-**Pseudocode:**
-1. Ensure the `Gemfile` is present in the repository.
-2. Verify the `Gemfile` includes the necessary dependencies for `fastlane`.
-3. Update the GitHub Actions workflow to specify the correct working directory if the `Gemfile` is not in the root directory.
-
-**Code:**
-
-```yaml
 name: Build and Deploy to TestFlight
 
 on:
@@ -47,6 +39,3 @@ jobs:
         FASTLANE_SESSION: ${{ secrets.FASTLANE_SESSION }}
         MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
       working-directory: ./path/to/your/Gemfile
-```
-
-Replace `./path/to/your/Gemfile` with the actual path to your `Gemfile` if it is not in the root directory.
