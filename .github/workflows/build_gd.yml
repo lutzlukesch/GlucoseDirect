@@ -10,32 +10,50 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-14
+    permissions:
+      contents: write
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+    - name: Select Xcode Version
+      run: "sudo xcode-select --switch /Applications/Xcode_15.4.app/Contents/Developer"
 
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: '2.7'
-
-    - name: Install Bundler
-      run: gem install bundler -v 2.3.0
-
+    - name: Checkout repository for building
+      uses: actions/checkout@v4
+      
+      # Install project dependencie
     - name: Install dependencies
       run: bundle install
-      working-directory: ./path/to/your/Gemfile
 
-    - name: Set up Xcode
-      run: sudo xcode-select -s /Applications/Xcode.app
-
-    - name: Build and upload to TestFlight
-      run: bundle exec fastlane beta
+      # Build signed Loop IPA file
+    - name: Fastlane Build & Archive
+      run: bundle exec fastlane build_loop
       env:
-        APPLE_ID: ${{ secrets.APPLE_ID }}
-        APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
-        FASTLANE_SESSION: ${{ secrets.FASTLANE_SESSION }}
+        TEAMID: ${{ secrets.TEAMID }}
+        GH_PAT: ${{ secrets.GH_PAT }}
+        FASTLANE_KEY_ID: ${{ secrets.FASTLANE_KEY_ID }}
+        FASTLANE_ISSUER_ID: ${{ secrets.FASTLANE_ISSUER_ID }}
+        FASTLANE_KEY: ${{ secrets.FASTLANE_KEY }}
         MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-      working-directory: ./path/to/your/Gemfile
+
+      # Upload to TestFlight
+    - name: Fastlane upload to TestFlight
+      run: bundle exec fastlane release
+      env:
+        TEAMID: ${{ secrets.TEAMID }}
+        GH_PAT: ${{ secrets.GH_PAT }}
+        FASTLANE_KEY_ID: ${{ secrets.FASTLANE_KEY_ID }}
+        FASTLANE_ISSUER_ID: ${{ secrets.FASTLANE_ISSUER_ID }}
+        FASTLANE_KEY: ${{ secrets.FASTLANE_KEY }}
+        MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+
+    # Upload Build artifacts
+    - name: Upload build log, IPA and Symbol artifacts
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifacts
+        path: |
+          artifacts
+          buildlog
+
