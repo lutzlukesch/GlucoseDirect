@@ -40,7 +40,7 @@ platform :ios do
     )
 
     previous_build_number = latest_testflight_build_number(
-      app_identifier: "com.#{TEAMID}.W8NA86KW32",
+      app_identifier: "com.#{TEAMID}.libre-direct",
       api_key: api_key,
     )
 
@@ -61,7 +61,7 @@ platform :ios do
     )
 
     previous_build_number = latest_testflight_build_number(
-      app_identifier: "com.#{TEAMID}",
+      app_identifier: "com.#{TEAMID}.libre-direct",
       api_key: api_key,
     )
 
