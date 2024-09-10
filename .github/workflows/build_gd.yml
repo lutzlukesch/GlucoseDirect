@@ -1,10 +1,15 @@
 name: Build and Deploy to TestFlight
-
+run-name: Build GD (${{ github.ref_name }})
 on:
-  push:
+workflow_dispatch:
+
+schedule:
+  - cron: "0 6 1 * *" # Builds the app on the 1st of every month at 06:00 UTC
+
+push:
     branches:
       - main
-  pull_request:
+pull_request:
     branches:
       - main
 
