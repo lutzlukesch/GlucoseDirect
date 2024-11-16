@@ -3,7 +3,7 @@
 //  LibreDirect
 //
 
-PRODUCT_BUNDLE_IDENTIFIER = name.${DEVELOPMENT_TEAM}.libre-direct
+PRODUCT_BUNDLE_IDENTIFIER = com.${DEVELOPMENT_TEAM}.libre-direct
 DEVELOPMENT_TEAM = 
 
 APP_AUTHOR = Reimar Metzen
