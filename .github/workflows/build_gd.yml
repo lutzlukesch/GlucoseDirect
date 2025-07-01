@@ -16,13 +16,13 @@ on:
 
 jobs:
   build:
-    runs-on: macos-14
+    runs-on: macos-15
     permissions:
       contents: write
 
     steps:
-    - name: Select Xcode Version
-      run: "sudo xcode-select --switch /Applications/Xcode_15.4.app/Contents/Developer"
+    - name: Select Xcode version
+      run: "sudo xcode-select --switch /Applications/Xcode_16.3.app/Contents/Developer"
 
     - name: Checkout repository for building
       uses: actions/checkout@v4
